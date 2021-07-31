@@ -1,1 +1,1 @@
-# rocket-chat-aws-ecs
+# Rocket Chat Application Running on ECS
