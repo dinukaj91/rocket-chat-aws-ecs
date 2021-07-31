@@ -1,4 +1,4 @@
-# Rocket Chat Application Running on ECS
+# Rocket Chat Application Running on Amazon ECS
 
 This terraform code can be used to bring up a fault tolerant rocket chat application.
 
