@@ -18,6 +18,12 @@ Application Loadbalancer
 
 ## Bringing Up The Application
 
+First you will have to generate an iam user which can be used to run the terraform commands on your aws cloud environment and export it to your workspace.
+
+Then you need to create an s3 bucket in your aws account and update the terraform backend section in the production.tf file with the name of this bucket in each of the folders that are given in the steps below.
+
+The aws_region variable needs to be updated as well in the production.tf files to match your region.
+
 In order to bring up the infrastructure you will have to clone this repo into your workspace and run the terraform init and terraform apply commands in the given folder in the order given below.
 
 ### Step 1: Create the Underlying infrastructure
@@ -61,4 +67,5 @@ ecs-cluster/production
 
 vpc/production
 
+Finaly you can delete the iam user and the s3 bucket that you used initialy created to wipe out this deployment completely from you aws account.
 
