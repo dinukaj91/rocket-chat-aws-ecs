@@ -41,7 +41,7 @@ It creates security groups to ensure connectivity from the rocket chat applicati
 It also creates a service discover service which is a dns record which can be used by the rocket chat application to connec to this mongodb task.
 Wait a few minutes for the db to come up and move to the final step.
 
-### Step 4: Rocket Chat and Application Loadbalancer
+### Step 4: Rocket Chat and Application Loadbalancer Listener
 
 Finaly you can bring up the rocket-chat application by running the terraform init/apply commands in the rocket-chat/production folder
 This pulls a rocket chat image from docker hub and starts a rocket chat service/task in the ecs cluster created in the second step.
