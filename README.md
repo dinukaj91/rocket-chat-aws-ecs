@@ -3,9 +3,13 @@
 The infrastructure that this application is running on uses the following technologies:
 
 Amazon ECS
+
 Auto Scaling Groups
+
 Service Discovery
+
 ELastic File System
+
 MongoDB
 
 In order to bring up the infrastructure you will have to clone this repo into your workspace and run the terraform init and terraform apply commands in the folder in the order given below.
