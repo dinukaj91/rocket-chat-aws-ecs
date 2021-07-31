@@ -23,7 +23,7 @@ In order to bring up the infrastructure you will have to clone this repo into yo
 ### Step 1: Create the Underlying infrastructure
 
 First you need to bring up the aws vpc, subnets, nat gateways and internet gateways required to run the infra strcuture on.
-This can be done by running the terraform init/apply in the commands vpc/production folder
+This can be done by running the terraform init/apply in the commands vpc/production folder.
 
 ### Step 2:Create the ECS Cluster and other required components used by ECS
 
@@ -43,7 +43,7 @@ Wait a few minutes for the db to come up and move to the final step.
 
 ### Step 4: Rocket Chat and Application Loadbalancer Listener
 
-Finaly you can bring up the rocket-chat application by running the terraform init/apply commands in the rocket-chat/production folder
+Finaly you can bring up the rocket-chat application by running the terraform init/apply commands in the rocket-chat/production folder.
 This pulls a rocket chat image from docker hub and starts a rocket chat service/task in the ecs cluster created in the second step.
 It also creats a target group and a load balancer listener used to connect to the application by users.
 You can use the dns name of the load balancer to connec to rocket chat.
