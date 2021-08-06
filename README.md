@@ -1,6 +1,6 @@
 # Rocket Chat Application Running on Amazon ECS
 
-This terraform code can be used to bring up a fault tolerant rocket chat application.
+This terraform code can be used to bring up a rocket chat application and all the components required for it to function.
 
 ## Technology Used
 
