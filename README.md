@@ -31,7 +31,7 @@ In order to bring up the infrastructure you will have to clone this repo into yo
 First you need to bring up the aws vpc, subnets, nat gateways and internet gateways required to run the infra strcuture on.
 This can be done by running the terraform init/apply in the commands vpc/production folder.
 
-### Step 2:Create the ECS Cluster and other required components used by ECS
+### Step 2: Create the ECS Cluster and other required components used by ECS
 
 Secondly you need to bring up the ecs cluster and the rest of the components needed to run an application.
 This can be done by running the terraform init/apply commands in the ecs-cluster/production folder.
