@@ -8,6 +8,10 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
+provider "aws" {
+  region = var.aws_region
+}
+
 resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = element(var.private_subnets, count.index)

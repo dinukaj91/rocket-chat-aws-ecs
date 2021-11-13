@@ -18,6 +18,10 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+provider "aws" {
+  region = var.aws_region
+}
+
 # Since service disovery is used to ge the ip of the network interface used by the
 # mongodb container a security group is created for this interface.
 
@@ -53,7 +57,7 @@ resource "aws_service_discovery_service" "mongo_discovery_service" {
   }
 }
 
-# Role and policy needed by the container to access the efs mount point
+# Role and policy needed by the container to access the efs access point
 
 resource "aws_iam_role" "mongodb_role" {
   name               = "${var.name}-${var.environment}-ecs-role"
@@ -74,21 +78,28 @@ resource "aws_iam_role" "mongodb_role" {
 
 resource "aws_iam_role_policy" "mongodb_efs_role_policy" {
  name = "${var.name}-${var.environment}-efs-policy"
- role = aws_iam_role.mongodb_role.id
+  role = aws_iam_role.mongodb_role.id
 
-  policy = jsonencode({
-  Version = "2012-10-17"
-  Statement = [
-      {
-      Action = [
-        "elasticfilesystem:ClientWrite",
-        "elasticfilesystem:ClientMount"
-      ]
-      Effect   = "Allow"
-      Resource = data.terraform_remote_state.ecs_cluster.outputs.efs_storage_arn
-      },
-  ]
-  })
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Resource": "${data.terraform_remote_state.ecs_cluster.outputs.efs_storage_arn}",
+            "Action": [
+                "elasticfilesystem:ClientWrite",
+                "elasticfilesystem:ClientMount"
+            ],
+            "Condition": {
+              "StringEquals": {
+                "elasticfilesystem:AccessPointArn": "${data.terraform_remote_state.ecs_cluster.outputs.mongodb_efs_access_point_arn}"
+              }
+            }
+        }
+    ]
+}
+POLICY
 }
 
 # Task definiton and service for mongodb application
@@ -104,7 +115,11 @@ resource "aws_ecs_task_definition" "mongo" {
 
     efs_volume_configuration {
       file_system_id          = data.terraform_remote_state.ecs_cluster.outputs.efs_storage_id
-      root_directory = "/"
+      transit_encryption = "ENABLED"
+      authorization_config {
+        access_point_id = data.terraform_remote_state.ecs_cluster.outputs.mongodb_efs_access_point_id
+        iam             = "ENABLED"
+      }
     }
   }
 

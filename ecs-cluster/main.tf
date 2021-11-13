@@ -8,6 +8,10 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+provider "aws" {
+  region = var.aws_region
+}
+
 # Create ECS Cluster
 
 resource "aws_ecs_cluster" "ecs_cluster" {
@@ -189,7 +193,8 @@ resource "aws_service_discovery_private_dns_namespace" "ecs_service_discovery" {
 
 # Create EFS File Storage to be used by applications which need persistent storage
 # backends like databases. Security groups required for this aws resource is also
-# created here
+# created here. An access point is created so that the mongodb application has access
+# to the folder /mongodb and not the entire efs root
 
 resource "aws_security_group" "ecs_efs_sg" {
   vpc_id      = data.terraform_remote_state.vpc.outputs.vpc_id
@@ -220,6 +225,28 @@ resource "aws_efs_mount_target" "ecs_efs_mount_targets" {
   security_groups  = [ aws_security_group.ecs_efs_sg.id ]
 }
 
+resource "aws_efs_access_point" "ecs_mongodb_efs_access_point" {
+  file_system_id = aws_efs_file_system.ecs_efs_storage.id
+
+  posix_user {
+    uid = "999"
+    gid = "999"
+  }
+
+  root_directory {
+    path = "/mongodb"
+    creation_info {
+      owner_uid   = "999"
+      owner_gid   = "999"
+      permissions = "775"
+    }
+  }
+
+  tags = {
+    Name = "${var.environment}-mongodb"
+  }
+}
+
 # Output Section
 
 output "ecs_cluster_id" {
@@ -246,3 +273,10 @@ output "efs_storage_arn" {
   value = aws_efs_file_system.ecs_efs_storage.arn
 }
 
+output "mongodb_efs_access_point_id" {
+  value = aws_efs_access_point.ecs_mongodb_efs_access_point.id
+}
+
+output "mongodb_efs_access_point_arn" {
+  value = aws_efs_access_point.ecs_mongodb_efs_access_point.arn
+}

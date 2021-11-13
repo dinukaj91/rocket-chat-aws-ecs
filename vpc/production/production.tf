@@ -6,6 +6,11 @@ terraform {
   }
 }
 
+variable "aws_region" {
+  default = "us-west-2"
+  description = "The name of your region"
+}
+
 variable "cidr" {
   default = "10.10.0.0/16"
   description = "The CIDR block for the VPC."

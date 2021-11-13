@@ -1,3 +1,19 @@
+This terraform code base can be used to learn most of the technologies used by ECS and is meant for demo purpose.
+The reason that this code should be used for demo purpose is the implementation of the MongoDB database.
+MongoDB can be implemented for use by an application in better ways, implementing it on a container orchestration service will introduce unwanted complexities which can be easily overcome by intelligently implementing the db via other means.
+The reason that MongoDB is implemented here on ECS is to demonstrate the use of the other services which work with ecs such as EFS and Service Discovery.
+MongoDB can be implemented via these better methods:
+
+MongoDB Atlas
+https://www.mongodb.com/atlas/database
+MongoDB Atlas is a fully-managed cloud database that handles all the complexity of deploying, managing, and healing your deployments on the cloud service provider of your choice (AWS , Azure, and GCP). With Atlas, you'll have a MongoDB database running with just a few clicks, and in just a few minutes.
+
+Amazon DocumentDB
+https://aws.amazon.com/documentdb/
+Amazon DocumentDB is a managed proprietary NoSQL database service that supports document data structures and has limited support for MongoDB workloads up to MongoDB version 3.6 and version 4.0. As a document database, Amazon DocumentDB can store, query, and index JSON data on Amazon.
+
+Old School Server Setup
+
 # Rocket Chat Application Running on Amazon ECS
 
 This terraform code can be used to bring up a rocket chat application and all the components required for it to function.
@@ -33,18 +49,18 @@ This can be done by running the terraform init/apply in the commands vpc/product
 
 ### Step 2: Create the ECS Cluster and other required components used by ECS
 
-Secondly you need to bring up the ecs cluster and the rest of the components needed to run an application.
+Next you need to bring up the ecs cluster and the rest of the components needed to run an application.
 This can be done by running the terraform init/apply commands in the ecs-cluster/production folder.
 This command brings up an ecs cluster which uses an auto scaling group and an intenet facing load balancer to run/access its tasks and services.
-It also creates a service discovery namespace used to connect to the mongodb database and an EFS storage service used by the mongodb task to store its database files.
+It also creates a service discovery namespace used to connect to the MongoDB database and an EFS storage service used by the MongoDB task to store its database files.
 
-### Step 3: Create the Mongodb Task and the Service Discovery service
+### Step 3: Create the MongoDB Task and the Service Discovery service
 
-Third you can bring up the mongodb task by running the terraform init/apply commands in the mongodb/production folder.
-This pulls a mongodb image from docker hub and starts a mongodb service/task in the ecs cluster created in the second step.
-This task uses efs as a file storage option to store the db files to prevent data loss if the mongodb task fails and restarts.
+Third you can bring up the MongoDB task by running the terraform init/apply commands in the MongoDB/production folder.
+This pulls a MongoDB image from docker hub and starts a MongoDB service/task in the ecs cluster created in the second step.
+This task uses efs as a file storage option to store the db files to prevent data loss if the MongoDB task fails and restarts.
 It creates security groups to ensure connectivity from the rocket chat application.
-It also creates a service discover service which is a dns record which can be used by the rocket chat application to connec to this mongodb task.
+It also creates a service discover service which is a dns record which can be used by the rocket chat application to connec to this MongoDB task.
 Wait a few minutes for the db to come up and move to the final step.
 
 ### Step 4: Rocket Chat and Application Loadbalancer Listener
@@ -61,7 +77,7 @@ You can cd into the folders in the order given below and run the terraform destr
 
 rocket-chat/production
 
-mongodb/production
+MongoDB/production
 
 ecs-cluster/production
 

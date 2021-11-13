@@ -18,6 +18,10 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
+provider "aws" {
+  region = var.aws_region
+}
+
 resource "aws_alb_target_group" "tg" {
   name        = "${var.name}-tg-${var.environment}"
   port        = 80
