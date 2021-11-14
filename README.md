@@ -86,5 +86,5 @@ ecs-cluster/production
 
 vpc/production
 
-Finaly you can delete the iam user and the s3 bucket that you used initialy created to wipe out this deployment completely from you aws account.
+Finaly you can delete the iam user and the s3 bucket that you initialy created to wipe out this deployment completely from you aws account.
 
