@@ -29,7 +29,7 @@ Auto Scaling Groups
 
 Service Discovery
 
-ELastic File System
+Elastic File System
 
 MongoDB
 
